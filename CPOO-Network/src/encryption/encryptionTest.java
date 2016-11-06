@@ -4,6 +4,13 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import message.*;
 
+/**
+ * @author Benjamin GUIGNARD
+ * @author Félix CHRISTELLE
+ * @version 1.0, 11/06/2016
+ * @since 1.0
+ */
+
 public class encryptionTest {
 
 	public static String TEXT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ a1.è";
