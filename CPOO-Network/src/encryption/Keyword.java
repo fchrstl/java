@@ -11,18 +11,21 @@ public class Keyword implements EncryptionAlgorithm {
 
 		// Creation of the code string
 		List<Character> code_list = new ArrayList<Character>();
+
 		for (char c : (code + ALPHABET).toCharArray()) {
 			if (!(code_list.contains(c))) {
+				System.out.print(c);
 				code_list.add(c);
 			}
 		}
 		StringBuilder codeB = new StringBuilder();
 		for (Character c : code_list) {
+			System.out.print(c);
 			codeB.append(c);
 		}
 		return codeB.toString();
 	}
-	
+
 	private String transform(String alphabet, String code, String str) {
 		StringBuilder strB = new StringBuilder(str);
 		int j;
@@ -36,10 +39,10 @@ public class Keyword implements EncryptionAlgorithm {
 	}
 
 	public Messagec cypher(Messaged md, String key) {
-		return new Messagec(transform("ABCDEFGHILKLMNOPQRSTUVWXYZ", createCode(key), md.getMessage()));
+		return new Messagec(transform("ABCDEFGHIJKLMNOPQRSTUVWXYZ", createCode(key), md.getMessage()));
 	}
 
 	public Messaged decypher(Messagec mc, String key) {
-		return new Messaged(transform(createCode(key), "ABCDEFGHILKLMNOPQRSTUVWXYZ", mc.getMessage()));
+		return new Messaged(transform(createCode(key), "ABCDEFGHIJKLMNOPQRSTUVWXYZ", mc.getMessage()));
 	}
 }
