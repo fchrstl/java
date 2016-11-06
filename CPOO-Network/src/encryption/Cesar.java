@@ -7,14 +7,9 @@ public class Cesar implements EncryptionAlgorithm {
 	private String transform(String str, int decal) {
 		StringBuilder strB = new StringBuilder(str);
 		int j;
-		String alphabet = "abcdefghijklmnopqrstuvwxyz";
 		String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 		for (int i = 0; i < strB.length(); i++) {
-			j = alphabet.indexOf(strB.charAt(i));
-			if (j > -1) {
-				strB.setCharAt(i, alphabet.charAt((j+decal) % 26));
-			}
 			j = ALPHABET.indexOf(strB.charAt(i));
 			if (j > -1) {
 				strB.setCharAt(i, ALPHABET.charAt((j+decal) % 26));
