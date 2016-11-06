@@ -2,6 +2,13 @@ package encryption;
 
 import message.*;
 
+/**
+ * @author Benjamin GUIGNARD
+ * @author Félix CHRISTELLE
+ * 
+ * @version 1.0
+ */
+
 public class Vigenere implements EncryptionAlgorithm {
 
 	private int intOfChar(char c) {

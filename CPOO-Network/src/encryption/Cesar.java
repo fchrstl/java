@@ -2,6 +2,13 @@ package encryption;
 
 import message.*;
 
+/**
+ * @author Benjamin GUIGNARD
+ * @author Félix CHRISTELLE
+ * 
+ * @version 1.0
+ */
+
 public class Cesar implements EncryptionAlgorithm {
 
 	private String transform(String str, int decal) {

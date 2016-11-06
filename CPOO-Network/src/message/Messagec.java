@@ -1,5 +1,12 @@
 package message;
 
+/**
+ * @author Benjamin GUIGNARD
+ * @author Félix CHRISTELLE
+ * 
+ * @version 1.0
+ */
+
 public class Messagec {
 
 	String message;

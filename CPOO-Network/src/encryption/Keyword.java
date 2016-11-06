@@ -4,6 +4,13 @@ import message.*;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * @author Benjamin GUIGNARD
+ * @author Félix CHRISTELLE
+ * 
+ * @version 1.0
+ */
+
 public class Keyword implements EncryptionAlgorithm {
 
 	private String createCode(String code) {
