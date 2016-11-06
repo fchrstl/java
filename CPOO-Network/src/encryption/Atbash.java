@@ -4,7 +4,7 @@ import message.*;
 
 public class Atbash implements EncryptionAlgorithm {
 
-	public String transform(String str) {
+	private String transform(String str) {
 		StringBuilder strB = new StringBuilder(str);
 		int j;
 		String alphabet = "abcdefghijklmnopqrstuvwxyz";
