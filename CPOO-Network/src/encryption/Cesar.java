@@ -12,7 +12,7 @@ public class Cesar implements EncryptionAlgorithm {
 		for (int i = 0; i < strB.length(); i++) {
 			j = ALPHABET.indexOf(strB.charAt(i));
 			if (j > -1) {
-				strB.setCharAt(i, ALPHABET.charAt((j+decal) % 26));
+				strB.setCharAt(i, ALPHABET.charAt((j + decal + 26) % 26));
 			}
 		}
 		return strB.toString();
@@ -23,6 +23,6 @@ public class Cesar implements EncryptionAlgorithm {
 	}
 
 	public Messaged decypher(Messagec mc, String key) {
-		return new Messaged(transform(mc.getMessage(), Integer.parseInt(key)));
+		return new Messaged(transform(mc.getMessage(), Integer.parseInt("-" + key)));
 	}
 }
