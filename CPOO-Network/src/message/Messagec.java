@@ -4,10 +4,6 @@ public class Messagec {
 	
 	String message;
 	
-	public Messagec() {
-		this.message = "";
-	}
-	
 	public Messagec(String message) {
 		this.message = message;
 	}

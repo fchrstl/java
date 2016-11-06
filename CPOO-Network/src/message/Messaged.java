@@ -4,10 +4,6 @@ public class Messaged {
 	
 	String message;
 	
-	public Messaged() {
-		this.message = "";
-	}
-	
 	public Messaged(String message) {
 		this.message = message;
 	}
