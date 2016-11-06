@@ -15,9 +15,18 @@ import message.*;
  * <p>
  * Only the upper case letter characters are transformed, the others are left
  * untouched.
+ * <p>
+ * The methods {@link EncryptionAlgorithm#cypher(Messaged, String)} and
+ * {@link EncryptionAlgorithm#decypher(Messagec, String)} both expect a
+ * <code>String</code> second argument which is exceptionally useless here. The
+ * user may then call them with any <code>String</code> value. However, for
+ * clarity purpose and not mistake the cypher method with another one, the use
+ * of <code>""</code> is advised.
  * 
- * @author Benjamin GUIGNARD
- * @author Félix CHRISTELLE
+ * @author		Benjamin GUIGNARD
+ * @author		Félix CHRISTELLE
+ * @version		1.0, 11/06/2016
+ * @since 1.0
  */
 
 public class Atbash implements EncryptionAlgorithm {
@@ -36,10 +45,34 @@ public class Atbash implements EncryptionAlgorithm {
 		return strB.toString();
 	}
 
+	/**
+	 * Encrypts the message with the Atbash cypher.
+	 * 
+	 * @param md
+	 *            the message to be transformed.
+	 * @param key
+	 *            an irrelevant <code>String</code>. May take any value here.
+	 * 
+	 * @return the encrypted message
+	 * 
+	 * @since 1.0
+	 */
 	public Messagec cypher(Messaged md, String key) {
 		return new Messagec(transform(md.getMessage()));
 	}
 
+	/**
+	 * Decrypts the message with the Atbash cypher.
+	 * 
+	 * @param mc
+	 *            the message to be transformed.
+	 * @param key
+	 *            an irrelevant <code>String</code>. May take any value here.
+	 * 
+	 * @return the decrypted message
+	 * 
+	 * @since 1.0
+	 */
 	public Messaged decypher(Messagec mc, String key) {
 		return new Messaged(transform(mc.getMessage()));
 	}
