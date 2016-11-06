@@ -6,6 +6,7 @@ import message.*;
  * 
  * @author Benjamin GUIGNARD, Félix CHRISTELLE
  *
+ * test
  */
 
 public class Atbash implements EncryptionAlgorithm {
