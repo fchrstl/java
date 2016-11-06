@@ -24,8 +24,7 @@ public class Keyword implements EncryptionAlgorithm {
 	}
 	
 	private String transform(String alphabet, String code, String str) {
-		System.out.println(" alphabet: " + alphabet + ", code: " + code + ", str: " + str);
-		StringBuilder strB = new StringBuilder();
+		StringBuilder strB = new StringBuilder(str);
 		int j;
 		for (int i = 0; i < strB.length(); i++) {
 			j = alphabet.indexOf(strB.charAt(i));
