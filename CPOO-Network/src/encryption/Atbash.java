@@ -2,24 +2,22 @@ package encryption;
 
 import message.*;
 
-/**
- * 
- * @author Benjamin GUIGNARD, Félix CHRISTELLE
- *
- * test_
- */
-
 public class Atbash implements EncryptionAlgorithm {
 
 	public String transform(String str) {
 		StringBuilder strB = new StringBuilder(str);
 		int j;
 		String alphabet = "abcdefghijklmnopqrstuvwxyz";
+		String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 		for (int i = 0; i < strB.length(); i++) {
 			j = alphabet.indexOf(strB.charAt(i));
 			if (j > -1) {
 				strB.setCharAt(i, alphabet.charAt(25 - j));
+			}
+			j = ALPHABET.indexOf(strB.charAt(i));
+			if (j > -1) {
+				strB.setCharAt(i, ALPHABET.charAt(25 - j));
 			}
 		}
 		return strB.toString();
