@@ -21,13 +21,11 @@ public class Keyword implements EncryptionAlgorithm {
 
 		for (char c : (code + ALPHABET).toCharArray()) {
 			if (!(code_list.contains(c))) {
-				System.out.print(c);
 				code_list.add(c);
 			}
 		}
 		StringBuilder codeB = new StringBuilder();
 		for (Character c : code_list) {
-			System.out.print(c);
 			codeB.append(c);
 		}
 		return codeB.toString();
