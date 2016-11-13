@@ -70,7 +70,8 @@ public class TCPServer {
 			DataOutputStream out = new DataOutputStream(s.getOutputStream());
 
 			System.out.println("Server: Connection made with " + s.getInetAddress() + ".");
-
+			out.writeInt(101);
+			
 			boolean clientConnected = true;
 			while (clientConnected) {
 				int type = in.readInt();
