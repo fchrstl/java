@@ -123,12 +123,12 @@ public class Instructions {
 	 */
 	private static boolean checkCypher(String[] cypherMethod) {
 
-		if (!(cypherMethod.length - 1 > nbCypherArgs(cypherMethod[0]))) {
+		if (cypherMethod.length - 1 < nbCypherArgs(cypherMethod[0])) {
 			System.out.println("Argument missing: the cypher method '" + cypherMethod[0] + "' expects a key.");
 			return false;
 		}
 
-		if (!(cypherMethod.length - 1 < nbCypherArgs(cypherMethod[0]))) {
+		if (cypherMethod.length - 1 > nbCypherArgs(cypherMethod[0])) {
 			System.out.println("Too many arguments: no key expected for '" + cypherMethod[0] + "'.");
 			return false;
 		}
@@ -203,7 +203,7 @@ public class Instructions {
 
 		if (type.equals("add")) {
 			if (ins.length < 2) {
-				System.out.println("Missing path name of the file to add.");
+				System.out.println("Missing path name of the file to add. Usage: " + use(type));
 				return false;
 			}
 			File f = new File(ins[1]);
@@ -225,14 +225,14 @@ public class Instructions {
 
 		if (type.equals("remove")) {
 			if (ins.length < 2) {
-				System.out.println("Missing ID of the file to remove.");
+				System.out.println("Missing ID of the file to remove. Usage: " + use(type));
 				return false;
 			}
 		}
 
 		if (type.equals("get")) {
 			if (ins.length < 2) {
-				System.out.println("Missing ID of the file to remove.");
+				System.out.println("Missing ID of the file to retrieve. Usage: " + use(type));
 				return false;
 			}
 			try {
@@ -242,12 +242,7 @@ public class Instructions {
 				return false;
 			}
 			if (ins.length < 3) {
-				System.out.println("Missing path name for the file to retreive.");
-				return false;
-			}
-			File f = new File(ins[2]);
-			if (!f.exists()) {
-				System.out.println("File '" + ins[1] + "' not found.");
+				System.out.println("Missing path name for the file to retreive. Usage: " + use(type));
 				return false;
 			}
 			if (ins.length > 3) {

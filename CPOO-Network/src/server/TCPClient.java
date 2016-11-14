@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import encryption.*;
 import message.*;
+import java.util.Date;
 
 /**
  * Provides an executable TCP client in console user interface to send and
@@ -142,10 +143,12 @@ public class TCPClient {
 	 */
 	private static void wait(DataInputStream in, int resp, String msg) throws IOException {
 
+		Long d = new Date().getTime();
+		
 		boolean waiting = true;
 		while (waiting) {
 			int type = in.readInt();
-
+			
 			if (type == resp) {
 				System.out.println(msg);
 				waiting = false;
@@ -159,6 +162,10 @@ public class TCPClient {
 					str[i] = in.readChar();
 				}
 				throw new IOException(new String(str));
+			}
+			
+			if ((new Date().getTime()) - d > 10000) {
+				throw new IOException("Connection timeout: no response from the server.");
 			}
 		}
 	}
@@ -215,13 +222,14 @@ public class TCPClient {
 		DataOutputStream out = new DataOutputStream(s.getOutputStream());
 
 		out.writeInt(0);
-		wait(in, 101, "HELLO_RESP");
+		wait(in, 100, "HELLO_RESP");
+		// the exception is not caught here if the server throws it
 
 		String host = s.getInetAddress().toString();
 		int port = s.getPort();
 
 		System.out.println("Connected to server " + s.getInetAddress() + ":" + port + ".");
-
+		
 		// connection now established
 		// user command listening loop
 
@@ -232,83 +240,101 @@ public class TCPClient {
 
 			// verification of the instruction validity
 			if (Instructions.check(instructions)) {
+				// the following try ... catch block expands all over the while
+				// loop. It enables to catch exceptions raised by the server.
+				try {
+					String type = instructions[0].toUpperCase();
 
-				String type = instructions[0].toUpperCase();
-
-				// command 'bye'
-				if (type.equals("BYE")) {
-					out.writeInt(90);
-					wait(in, 190, "BYE_RESP");
-					bye = true;
-				}
-
-				// command 'remove'
-				if (type.equals("REMOVE")) {
-					out.writeInt(3);
-					out.writeLong(Long.parseLong(instructions[1]));
-
-					wait(in, 103, "REMOVE_RESP");
-				}
-
-				// command 'list'
-				if (type.equals("LIST")) {
-					out.writeInt(1);
-					wait(in, 101, "LIST_REP");
-					int nbFiles = in.readInt();
-					if (nbFiles == 0) {
-						System.out.println("There are no available files on the server.");
-					} else {
-						System.out.println("There are " + nbFiles + " available files on the server, which IDs are :");
-						for (int i = 0; i < nbFiles; i++) {
-							System.out.println("    " + in.readLong());
-						}
+					// command 'bye'
+					if (type.equals("BYE")) {
+						out.writeInt(90);
+						wait(in, 190, "BYE_RESP");
+						bye = true;
 					}
-				}
 
-				// command 'add'
-				if (type.equals("ADD")) {
-					String txt = readFile(instructions[1]);
-					out.writeInt(2);
-					out.writeInt(txt.length());
+					// command 'remove'
+					if (type.equals("REMOVE")) {
+						out.writeInt(3);
+						out.writeLong(Long.parseLong(instructions[1]));
 
-					if (instructions.length > 2) {
-						if (instructions.length > 3) {
-							txt = cypher(txt, instructions[2], instructions[3]);
+						wait(in, 103, "REMOVE_RESP");
+					}
+
+					// command 'list'
+					if (type.equals("LIST")) {
+						out.writeInt(1);
+						wait(in, 101, "LIST_REP");
+						int nbFiles = in.readInt();
+						if (nbFiles == 0) {
+							System.out.println("There are no available files on the server.");
 						} else {
-							txt = cypher(txt, instructions[2], "");
+							System.out.println(
+									"There are " + nbFiles + " available files on the server, which IDs are :");
+							for (int i = 0; i < nbFiles; i++) {
+								System.out.println("    " + in.readLong());
+							}
 						}
 					}
 
-					for (int i = 0; i < txt.length(); i++) {
-						out.writeChar(txt.charAt(i));
+					// command 'add'
+					if (type.equals("ADD")) {
+						String txt = readFile(instructions[1]);
+						out.writeInt(2);
+						out.writeInt(txt.length());
+
+						if (instructions.length > 2) {
+							if (instructions.length > 3) {
+								txt = cypher(txt, instructions[2], instructions[3]);
+							} else {
+								txt = cypher(txt, instructions[2], "");
+							}
+						}
+
+						for (int i = 0; i < txt.length(); i++) {
+							out.writeChar(txt.charAt(i));
+						}
+
+						wait(in, 102, "ADD_RESP");
+
+						System.out.println("File stored on the server under the ID: " + in.readLong() + ".");
 					}
 
-					wait(in, 102, "ADD_RESP");
+					// command 'get'
+					if (type.equals("GET")) {
+						out.writeInt(4);
+						out.writeLong(Long.parseLong(instructions[1]));
 
-					System.out.println("File stored on the server under the ID: " + in.readLong() + ".");
-				}
+						wait(in, 104, "GET_RESP");
 
-				// command 'get'
-				if (type.equals("GET")) {
-					out.writeInt(4);
-					out.writeLong(Long.parseLong(instructions[1]));
+						int nbChars = in.readInt();
+						char[] str = new char[nbChars];
 
-					wait(in, 104, "GET_RESP");
+						for (int i = 0; i < nbChars; i++) {
+							str[i] = in.readChar();
+						}
 
-					int nbChars = in.readInt();
-					char[] str = new char[nbChars];
+						String txt = new String(str);
+						if (instructions.length > 3) {
+							if (instructions.length > 4) {
+								txt = decypher(txt, instructions[3], instructions[4]);
+							} else {
+								txt = decypher(txt, instructions[3], "");
+							}
+						}
 
-					for (int i = 0; i < nbChars; i++) {
-						str[i] = in.readChar();
+						try {
+							PrintWriter doc = new PrintWriter(instructions[2]);
+							doc.print(txt);
+							doc.close();
+							System.out.println("File received stored on path '" + instructions[2] + "'.");
+						} catch (IOException e) {
+							System.out.println(
+									"File correctly received but unable to create it on the given path.\nPlease make sure that the directories on the path "
+											+ instructions[2] + "' exist.");
+						}
 					}
-
-					String txt = decypher(new String(str), instructions[2], instructions[3]);
-
-					PrintWriter doc = new PrintWriter("received/" + instructions[1] + ".txt");
-					doc.print(txt);
-					doc.close();
-
-					System.out.println("File received stored on path 'received/" + instructions[1] + ".txt'.");
+				} catch (IOException e) {
+					System.out.println("ERROR_RESP\nException from the server: " + e.toString() + ".");
 				}
 			}
 		}
