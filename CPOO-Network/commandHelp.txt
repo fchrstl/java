@@ -1,0 +1,30 @@
+Available commands and usage :
+
+	'add filePath [cypherMethod] [cypherMethodKey]'
+		Send the 'filePath' .txt format text document to the server.
+		OPTIONAL:
+		  'cypherMethod [cypherMethodKey]': the optional method to encrypt the document and its key. The five available cypher methods and their respective keys are :
+			'atbash': no key
+			'caesar': integer key
+			'keyword': upper or lower case non accentuated letter key
+			'rottreize': no key
+			'vigenere': upper or lower case non accentuated letter key
+
+	'bye'
+		Disconnect from the server and/or exit the application.
+
+	'get fileID filePath [cypherMethod] [cypherMethodKey]'
+		Requests the server to retrieve a .txt format text document stored under ID 'fileID' and copy it at the path 'filePath'. 
+		OPTIONAL:
+		  'cypherMethod [cypherMethodKey]': see 'add'.
+
+	'help'
+		Displays the a list of all available methods.
+
+	'list'
+		List all file ID currently stored on the server.
+
+	'remove fileID'
+		Send the server a request to delete the file with ID 'fileID'.
+
+	

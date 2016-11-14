@@ -5,8 +5,8 @@ import message.*;
 /**
  * @author Benjamin GUIGNARD
  * @author Félix CHRISTELLE
- * @version 1.0, 11/06/2016
- * @since 1.0
+ * 
+ * @version 1.0
  */
 
 public interface EncryptionAlgorithm {

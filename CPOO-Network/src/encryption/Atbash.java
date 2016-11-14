@@ -25,8 +25,8 @@ import message.*;
  * 
  * @author Benjamin GUIGNARD
  * @author Félix CHRISTELLE
- * @version 1.0, 11/06/2016
- * @since 1.0
+ * 
+ * @version 1.0
  */
 
 public class Atbash implements EncryptionAlgorithm {
@@ -58,10 +58,7 @@ public class Atbash implements EncryptionAlgorithm {
 	 *            the message to be transformed.
 	 * @param key
 	 *            an irrelevant <code>String</code>. May take any value here.
-	 * 
 	 * @return the encrypted message
-	 * 
-	 * @since 1.0
 	 */
 	public Messagec cypher(Messaged md, String key) {
 		return new Messagec(transform(md.getMessage()));
@@ -74,10 +71,7 @@ public class Atbash implements EncryptionAlgorithm {
 	 *            the message to be transformed.
 	 * @param key
 	 *            an irrelevant <code>String</code>. May take any value here.
-	 * 
 	 * @return the decrypted message
-	 * 
-	 * @since 1.0
 	 */
 	public Messaged decypher(Messagec mc, String key) {
 		return new Messaged(transform(mc.getMessage()));

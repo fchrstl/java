@@ -42,7 +42,7 @@ import message.*;
  * @since 1.0
  */
 
-public class encryptionTest {
+public class EncryptionTest {
 
 	public static String TEXT = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 1.è";
 
@@ -63,10 +63,10 @@ public class encryptionTest {
 	public void testCesar() {
 		String expectedCypher = "DEFGHIJKLMNOPQRSTUVWXYZABC defghijklmnopqrstuvwxyzabc 1.è";
 
-		EncryptionAlgorithm cesar = new Cesar();
+		EncryptionAlgorithm caesar = new Caesar();
 
-		String mc = cesar.cypher(new Messaged(TEXT), "3").getMessage();
-		String md = cesar.decypher(new Messagec(mc), "3").getMessage();
+		String mc = caesar.cypher(new Messaged(TEXT), "3").getMessage();
+		String md = caesar.decypher(new Messagec(mc), "3").getMessage();
 
 		assertEquals(mc, expectedCypher);
 		assertEquals(md, TEXT);
@@ -74,7 +74,7 @@ public class encryptionTest {
 
 	@Test
 	public void testKeyword() {
-		String expectedCypher = "KRYPTOSABCDEFGHIJLMNQUVWXZ kryptoabcdefghijlmnquvwxz a1.è";
+		String expectedCypher = "KRYPTOSABCDEFGHIJLMNQUVWXZ kryptosabcdefghijlmnquvwxz 1.è";
 
 		EncryptionAlgorithm keyword = new Keyword();
 
@@ -100,7 +100,7 @@ public class encryptionTest {
 
 	@Test
 	public void testVigenere() {
-		String expectedCypher = "KSASXTYRZHZEAFYGOGLHMFNVNS ksasxtyrzhzeafygoglhmfnvns 1.è";
+		String expectedCypher = "KSASXTYRZHZEAFYGOGLHMFNVNS sltbtyuzsaiafbgzhphmingowd 1.è";
 
 		EncryptionAlgorithm vigenere = new Vigenere();
 
